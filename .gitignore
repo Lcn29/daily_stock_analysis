@@ -77,10 +77,13 @@ run.sh
 
 verify_*.py
 
-# ignore Claude workspace artifacts, but keep shared repo skills versioned
+# 忽略本地 agent 工作区产物，但保留仓库协作 skill 真源
 .claude/*
 !.claude/skills/
 !.claude/skills/**
+.codex/*
+!.codex/skills/
+!.codex/skills/**
 
 # ignore static files
 static/
