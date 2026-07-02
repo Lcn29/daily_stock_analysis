@@ -16,6 +16,7 @@ TODO:
 """
 import os
 import sys
+import types
 import unittest
 from unittest import mock
 from typing import Optional
@@ -1917,6 +1918,40 @@ class TestNotificationServiceReportGeneration(unittest.TestCase):
 
         self.assertTrue(ok)
         mock_post.assert_called_once()
+
+    @mock.patch("src.notification.get_config")
+    def test_send_to_serverchan_via_notification_service(
+        self, mock_get_config: mock.MagicMock
+    ):
+        mock_sdk = types.ModuleType("serverchan_sdk")
+        mock_sdk.sc_send = mock.MagicMock(return_value={"code": 0})
+        cfg = _make_config(
+            serverchan_sendkey="SCTKEY",
+            serverchan_channel="9|66",
+            serverchan_openid="uid-a,uid-b",
+            serverchan_noip=True,
+            serverchan_short="短摘要",
+        )
+        mock_get_config.return_value = cfg
+
+        with mock.patch.dict(sys.modules, {"serverchan_sdk": mock_sdk}):
+            service = NotificationService()
+            self.assertIn(NotificationChannel.SERVERCHAN, service.get_available_channels())
+
+            ok = service.send("serverchan content")
+
+        self.assertTrue(ok)
+        mock_sdk.sc_send.assert_called_once_with(
+            "SCTKEY",
+            "股票分析报告",
+            "serverchan content",
+            {
+                "channel": "9|66",
+                "openid": "uid-a,uid-b",
+                "noip": 1,
+                "short": "短摘要",
+            },
+        )
 
     @mock.patch("src.notification.get_config")
     @mock.patch("requests.post")

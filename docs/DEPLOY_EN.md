@@ -384,6 +384,7 @@ Add these Secrets:
 | `TELEGRAM_MESSAGE_THREAD_ID` | Telegram Topic ID | Optional* |
 | `EMAIL_SENDER` | Sender email | Optional* |
 | `EMAIL_PASSWORD` | Email authorization code | Optional* |
+| `SERVERCHAN_SENDKEY` | ServerChan SendKey; the official SDK automatically adapts Turbo / v3 keys | Optional* |
 | `SERVERCHAN3_SENDKEY` | ServerChan v3 Sendkey | Optional* |
 | `CUSTOM_WEBHOOK_URLS` | Custom Webhook (comma-separated for multiple) | Optional* |
 | `STOCK_LIST` | Watchlist, e.g., `600519,300750` | ✅ |

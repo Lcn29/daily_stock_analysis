@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - [修复] 持仓快照今日估值改为受限并发预取多只持仓实时价，减少持仓较多时 Web 组合页面刷新超时。
 - [修复] Web 首页重新分析完成后自动切换到同一股票最新生成的报告，避免仍停留在旧报告内容。
 - [新功能] #1754 在 Web AI 建议页新增单股信号时间线，并为自动生成与历史回填的 DecisionSignal 写入默认 decision_profile metadata。
+- [新功能] 新增 Server酱官方 SDK 通知渠道 `serverchan`，支持 `SERVERCHAN_SENDKEY` 及 tags/short/channel/openid/noip 可选参数，并自动适配 Turbo / Server酱3 SendKey。
 
 - [修复] 默认通知报告补充展示 `dashboard.phase_decision` 盘中决策护栏字段，避免与模板渲染路径展示不一致。
 - [修复] 修复 Windows 环境下 Web/Desktop 静态 JS 资源可能被识别为 `text/plain` 导致前端黑屏的问题。

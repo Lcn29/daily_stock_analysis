@@ -136,6 +136,19 @@ CHANNEL_SPECS: Tuple[NotificationChannelSpec, ...] = (
         advanced_keys=("PUSHPLUS_TOPIC",),
     ),
     NotificationChannelSpec(
+        channel=NotificationChannel.SERVERCHAN.value,
+        display_name=ChannelDetector.get_channel_name(NotificationChannel.SERVERCHAN),
+        kind="configured",
+        minimal_keys=("SERVERCHAN_SENDKEY",),
+        advanced_keys=(
+            "SERVERCHAN_TAGS",
+            "SERVERCHAN_SHORT",
+            "SERVERCHAN_CHANNEL",
+            "SERVERCHAN_OPENID",
+            "SERVERCHAN_NOIP",
+        ),
+    ),
+    NotificationChannelSpec(
         channel=NotificationChannel.SERVERCHAN3.value,
         display_name=ChannelDetector.get_channel_name(NotificationChannel.SERVERCHAN3),
         kind="configured",

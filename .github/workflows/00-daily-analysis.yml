@@ -347,7 +347,15 @@ jobs:
           ASTRBOT_URL: ${{ secrets.ASTRBOT_URL }}
           ASTRBOT_TOKEN: ${{ secrets.ASTRBOT_TOKEN }}
 
-          # 方式十一：Server酱3
+          # 方式十一：Server酱（官方 SDK，自动适配 Turbo/3）
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
+          SERVERCHAN_TAGS: ${{ vars.SERVERCHAN_TAGS || secrets.SERVERCHAN_TAGS }}
+          SERVERCHAN_SHORT: ${{ vars.SERVERCHAN_SHORT || secrets.SERVERCHAN_SHORT }}
+          SERVERCHAN_CHANNEL: ${{ vars.SERVERCHAN_CHANNEL || secrets.SERVERCHAN_CHANNEL }}
+          SERVERCHAN_OPENID: ${{ vars.SERVERCHAN_OPENID || secrets.SERVERCHAN_OPENID }}
+          SERVERCHAN_NOIP: ${{ vars.SERVERCHAN_NOIP || secrets.SERVERCHAN_NOIP || 'false' }}
+
+          # 方式十一兼容：Server酱3
           SERVERCHAN3_SENDKEY: ${{ secrets.SERVERCHAN3_SENDKEY }}
 
           # 方式十二：Slack
@@ -476,6 +484,7 @@ jobs:
           echo ""
           echo "【通知渠道】"
           echo "  PushPlus: $([ -n "$PUSHPLUS_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
+          echo "  Server酱: $([ -n "$SERVERCHAN_SENDKEY" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  ntfy: $([ -n "$NTFY_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  Gotify: $([ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  企业微信: $([ -n "$WECHAT_WEBHOOK_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"

@@ -3484,6 +3484,17 @@ class StockAnalysisPipeline:
                             channel_success,
                             channel_error,
                         )
+                    elif channel == NotificationChannel.SERVERCHAN:
+                        channel_success, channel_error = _send_channel_safely(
+                            channel.value,
+                            lambda: self.notifier.send_to_serverchan(report),
+                        )
+                        non_wechat_success = channel_success or non_wechat_success
+                        _record_channel_result(
+                            channel.value,
+                            channel_success,
+                            channel_error,
+                        )
                     elif channel == NotificationChannel.DISCORD:
                         channel_success, channel_error = _send_channel_safely(
                             channel.value,

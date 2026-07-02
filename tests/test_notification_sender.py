@@ -33,6 +33,7 @@ from src.notification_sender import (
     NtfySender,
     PushoverSender,
     PushplusSender,
+    ServerchanSender,
     Serverchan3Sender,
     SlackSender,
     TelegramSender,
@@ -1191,6 +1192,46 @@ class TestServerchan3Sender(unittest.TestCase):
         sender = Serverchan3Sender(cfg)
         result = sender.send_to_serverchan3("hello")
         self.assertTrue(result)
+
+
+class TestServerchanSender(unittest.TestCase):
+    """Unit tests for ServerchanSender."""
+
+    def test_send_returns_false_when_no_sendkey(self):
+        cfg = _config()
+        sender = ServerchanSender(cfg)
+        result = sender.send_to_serverchan("hello")
+        self.assertFalse(result)
+
+    def test_send_success_uses_official_sdk_options(self):
+        mock_sdk = type(sys)("serverchan_sdk")
+        mock_sdk.sc_send = mock.MagicMock(return_value={"code": 0})
+        cfg = _config(
+            serverchan_sendkey="SCT123",
+            serverchan_tags="股票分析|日报",
+            serverchan_short="摘要",
+            serverchan_channel="9|66",
+            serverchan_openid="uid-a|uid-b",
+            serverchan_noip=True,
+        )
+        sender = ServerchanSender(cfg)
+
+        with mock.patch.dict(sys.modules, {"serverchan_sdk": mock_sdk}):
+            result = sender.send_to_serverchan("hello", title="标题")
+
+        self.assertTrue(result)
+        mock_sdk.sc_send.assert_called_once_with(
+            "SCT123",
+            "标题",
+            "hello",
+            {
+                "tags": "股票分析|日报",
+                "short": "摘要",
+                "channel": "9|66",
+                "openid": "uid-a|uid-b",
+                "noip": 1,
+            },
+        )
 
 
 class TestSlackSender(unittest.TestCase):

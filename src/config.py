@@ -955,6 +955,14 @@ class Config:
     pushplus_token: Optional[str] = None  # PushPlus Token
     pushplus_topic: Optional[str] = None  # PushPlus 群组编码（一对多推送）
 
+    # Server酱推送配置（官方 SDK，自动适配 Turbo/3）
+    serverchan_sendkey: Optional[str] = None  # Server酱 SendKey
+    serverchan_tags: Optional[str] = None  # SC3 标签，多个标签使用竖线分隔
+    serverchan_short: Optional[str] = None  # 消息卡片摘要
+    serverchan_channel: Optional[str] = None  # SCT 消息通道，多个通道使用竖线分隔
+    serverchan_openid: Optional[str] = None  # SCT 抄送 openid，多个用逗号或竖线分隔
+    serverchan_noip: bool = False  # SCT 是否隐藏调用 IP
+
     # Server酱3 推送配置
     serverchan3_sendkey: Optional[str] = None  # Server酱3 SendKey
 
@@ -1800,6 +1808,12 @@ class Config:
             gotify_token=os.getenv('GOTIFY_TOKEN'),
             pushplus_token=os.getenv('PUSHPLUS_TOKEN'),
             pushplus_topic=os.getenv('PUSHPLUS_TOPIC'),
+            serverchan_sendkey=os.getenv('SERVERCHAN_SENDKEY'),
+            serverchan_tags=os.getenv('SERVERCHAN_TAGS'),
+            serverchan_short=os.getenv('SERVERCHAN_SHORT'),
+            serverchan_channel=os.getenv('SERVERCHAN_CHANNEL'),
+            serverchan_openid=os.getenv('SERVERCHAN_OPENID'),
+            serverchan_noip=parse_env_bool(os.getenv('SERVERCHAN_NOIP'), default=False),
             serverchan3_sendkey=os.getenv('SERVERCHAN3_SENDKEY'),
             custom_webhook_urls=[u.strip() for u in os.getenv('CUSTOM_WEBHOOK_URLS', '').split(',') if u.strip()],
             custom_webhook_bearer_token=os.getenv('CUSTOM_WEBHOOK_BEARER_TOKEN'),
@@ -3046,6 +3060,7 @@ class Config:
                 and _has_gotify_base_url(self.gotify_url)
             )
             or self.pushplus_token
+            or self.serverchan_sendkey
             or self.serverchan3_sendkey
             or self.custom_webhook_urls
             or self.astrbot_url
